@@ -30,5 +30,5 @@ export class ProductExtraOption {
         required: true,
         description: 'Indica si se ha activado la opcion del extra'
     })
-    activate: boolean;
+    selected: boolean;
 }

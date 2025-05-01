@@ -1,26 +1,36 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsOptional, IsString, IsNotEmpty, IsArray } from "class-validator";
-import { ProductExtraBlock } from "./product-extra-block-dto";
+import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { ProductExtraOption } from "./product-extra-option-dto";
 
 export class ProductExtraDto {
-
-    @IsOptional()
+    
+    @IsNotEmpty()
     @IsString()
     @ApiProperty({
-        name: 'label',
+        name: 'name',
         type: String,
-        required: false,
-        description: 'Texto del extra'
+        required: true,
+        description: 'Nombre del bloque'
     })
-    label?: string;
+    name: string;
 
     @IsNotEmpty()
+    @IsString()
+    @ApiProperty({
+        name: 'img',
+        type: String,
+        required: true,
+        description: 'Imagen del bloque'
+    })
+    img: string;
+
+    @IsOptional()
     @IsArray()
     @ApiProperty({
-        name: 'blocks',
-        type: [ProductExtraBlock],
-        required: true,
-        description: 'Texto del extra'
+        name: 'options',
+        type: [ProductExtraOption],
+        required: false,
+        description: 'Opciones disponibles del bloque'
     })
-    blocks: ProductExtraBlock[]
+    options?: ProductExtraOption[];
 }

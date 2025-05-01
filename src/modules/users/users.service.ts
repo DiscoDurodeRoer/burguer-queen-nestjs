@@ -1,15 +1,14 @@
-import { ConflictException, Inject, Injectable, forwardRef } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { UserDto } from './dto/user-dto';
 import { Model, Types } from 'mongoose';
-import { IUser } from './interfaces/user.interface';
-import { CategoriesService } from '../categories/categories.service';
+import { User } from './schemas/user.schema';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class UsersService {
 
     constructor(
-        @Inject('USER_MODEL')
-        private userModel: Model<IUser>
+        @InjectModel(User.name) private userModel: Model<User>
     ) { }
 
     async create(user: UserDto) {

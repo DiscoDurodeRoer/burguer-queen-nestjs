@@ -3,7 +3,7 @@ import { Stripe } from 'stripe';
 import { CreatePaymentIntentDTO } from './dto/payment-intent.dto';
 import { ApiTags } from '@nestjs/swagger';
 
-@Controller('/api/v1/stripe')
+@Controller('/stripe')
 @ApiTags("Stripe")
 export class StripeController {
 

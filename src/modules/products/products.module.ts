@@ -1,23 +1,22 @@
 import { Module } from '@nestjs/common';
 import { ProductsController } from './products.controller';
 import { ProductsService } from './products.service';
-import { MongoConnectionService } from '../mongo-connection/mongo-connection.service';
-import { productSchema } from './schemas/product.schema';
-import { IProduct } from './interfaces/product.interface';
-import { MongoConnectionModule } from '../mongo-connection/mongo-connection.module';
+import { Product, productSchema } from './schemas/product.schema';
 import { CategoriesModule } from '../categories/categories.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [MongoConnectionModule, CategoriesModule],
-  controllers: [ProductsController],
-  providers: [
-    ProductsService,
-    {
-      provide: 'PRODUCT_MODEL',
-      useFactory: (db: MongoConnectionService) => db.getConnection().model<IProduct>('Product', productSchema, 'products'),
-      inject: [MongoConnectionService]
-    }
+  imports: [
+    MongooseModule.forFeature([
+      {
+        name: Product.name,
+        schema: productSchema
+      }
+    ]),
+    CategoriesModule
   ],
+  controllers: [ProductsController],
+  providers: [ProductsService],
   exports: [ProductsService]
 })
 export class ProductsModule {}

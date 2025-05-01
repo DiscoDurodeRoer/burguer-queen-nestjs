@@ -1,28 +1,22 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-import { MongoConnectionModule } from '../mongo-connection/mongo-connection.module';
-import { MongoConnectionService } from '../mongo-connection/mongo-connection.service';
-import { IUser } from './interfaces/user.interface';
-import { userSchema } from './schemas/user.schema';
+import { User, userSchema } from './schemas/user.schema';
 import { PassportModule } from '@nestjs/passport';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
-    MongoConnectionModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
+    MongooseModule.forFeature([
+      {
+        name: User.name,
+        schema: userSchema
+      }
+    ])
   ],
   controllers: [UsersController],
-  providers: [
-    UsersService,
-    {
-      provide: 'USER_MODEL',
-      useFactory: (db: MongoConnectionService) => db.getConnection().model<IUser>('User', userSchema, 'users'),
-      inject: [MongoConnectionService]
-    }
-  ],
-  exports: [
-    UsersService
-  ]
+  providers: [UsersService],
+  exports: [UsersService]
 })
 export class UsersModule { }

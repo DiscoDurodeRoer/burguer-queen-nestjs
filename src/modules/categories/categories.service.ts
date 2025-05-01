@@ -1,15 +1,13 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { ICategory } from './interfaces/category.interface';
 import { CategoryDto } from './dto/category-dto';
+import { Category } from './schemas/category.schema';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class CategoriesService {
 
-    constructor(
-        @Inject('CATEGORY_MODEL')
-        private categoryModel: Model<ICategory>
-    ) { }
+    constructor(@InjectModel(Category.name) private categoryModel: Model<Category>) { }
 
     getCategories() {
         return this.categoryModel.find();

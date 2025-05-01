@@ -2,7 +2,7 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ProductsService } from './products.service';
 
-@Controller('api/v1/products')
+@Controller('products')
 @ApiTags('Products')
 export class ProductsController {
 

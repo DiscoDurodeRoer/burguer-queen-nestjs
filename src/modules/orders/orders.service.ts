@@ -4,14 +4,16 @@ import { Model } from 'mongoose';
 import { IOrder } from './interfaces/order.interface';
 import { UsersService } from '../users/users.service';
 import * as moment from 'moment';
+import { Order } from './schemas/order.schema';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class OrdersService {
 
     constructor(
-        @Inject('ORDER_MODEL')
-        private orderModel: Model<IOrder>,
-        private userService: UsersService) { }
+        @InjectModel(Order.name) private orderModel: Model<Order>,
+        private userService: UsersService
+    ) { }
 
     async createOrder(order: OrderDto) {
 
@@ -21,16 +23,12 @@ export class OrdersService {
             let priceProduct = quantityProduct.product.price;
             const extras = quantityProduct.product.extras;
             if (quantityProduct.product.extras) {
-                for (const products of extras) {
-                    for (const product of products.blocks) {
-                        if (product.options.length > 1) {
-                            const pActivated = product.options.find(op => op.activate);
-                            if (pActivated) {
-                                priceProduct += pActivated.price;
-                            }
-                        } else if (product.options[0].activate) {
-                            priceProduct += product.options[0].price;
-                        }
+                for (const extra of extras) {
+
+                    const extraSelected = extra.options.find(op => op.selected);
+
+                    if (extraSelected) {
+                        priceProduct += extraSelected.price;
                     }
                 }
             }
@@ -48,6 +46,8 @@ export class OrdersService {
                 $lte: endOfDay,    // Fecha menor o igual al fin del día
             },
         });
+
+        delete user.password;
 
         const orderModel = new this.orderModel({
             products: order.products,

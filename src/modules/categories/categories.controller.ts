@@ -1,8 +1,8 @@
 import { Controller, Get } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CategoriesService } from './categories.service';
 
-@Controller('api/v1/categories')
+@Controller('categories')
 @ApiTags("Categories")
 export class CategoriesController {
 

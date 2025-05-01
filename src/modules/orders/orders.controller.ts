@@ -4,7 +4,7 @@ import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { OrderDto } from './dto/order-dto';
 import { AuthGuard } from '@nestjs/passport';
 
-@Controller('api/v1/orders')
+@Controller('orders')
 @ApiTags("Orders")
 export class OrdersController {
 
