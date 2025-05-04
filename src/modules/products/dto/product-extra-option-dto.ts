@@ -25,7 +25,7 @@ export class ProductExtraOption {
     @IsNotEmpty()
     @IsNumber()
     @ApiProperty({
-        name: 'activate',
+        name: 'selected',
         type: Boolean,
         required: true,
         description: 'Indica si se ha activado la opcion del extra'
